@@ -1,0 +1,12 @@
+{
+    "python.venvPath": "venv",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/venv/*/**": true
+    },
+    "python.pythonPath": "venv/bin/python3.6"
+}
