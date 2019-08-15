@@ -19,6 +19,7 @@ from django.urls import path, include
 from member_map.models import DiscordUser
 from rest_framework import routers, serializers, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+import django_filters.rest_framework
 
 
 # Serializers define the API representation.
@@ -33,6 +34,8 @@ class DiscordUserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = DiscordUser.objects.all()
     serializer_class = DiscordUserSerializer
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['discord_id', 'username']
 
 
 # Routers provide an easy way of automatically determining the URL conf.
