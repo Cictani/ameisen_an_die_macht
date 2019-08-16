@@ -15,27 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
-from member_map.models import DiscordUser
-from rest_framework import routers, serializers, viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-import django_filters.rest_framework
-
-
-# Serializers define the API representation.
-class DiscordUserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = DiscordUser
-        fields = ['id', 'discord_id', 'username', 'location']
-
-
-# ViewSets define the view behavior.
-class DiscordUserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = DiscordUser.objects.all()
-    serializer_class = DiscordUserSerializer
-    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ['discord_id', 'username']
+from rest_framework import routers
+from member_map.views import DiscordUserViewSet, UserMapView
 
 
 # Routers provide an easy way of automatically determining the URL conf.
@@ -45,5 +28,10 @@ router.register(r'discord-users', DiscordUserViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+    path('', UserMapView.as_view(), name='home'),
+    path('impressum', TemplateView.as_view(template_name="impressum.html"), name='impressum'),
+    path('datenschutz', TemplateView.as_view(template_name="datenschutz.html"), name='datenschutz'),
+    path('nutzungsbedingungen', TemplateView.as_view(template_name="nutzungsbedingungen.html"), name='nutzungsbedingungen'),
+    path('unterstützen', TemplateView.as_view(template_name="unterstuetzen.html"), name='unterstuetzen'),
 ]
