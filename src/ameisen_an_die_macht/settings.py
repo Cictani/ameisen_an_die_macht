@@ -10,19 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
 import environ
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
-    ALLOWED_HOSTS=(tuple)
+    ALLOWED_HOSTS=(tuple),
+    PUBLIC_ROOT=(environ.Path, None),
 )
 
 # reading .env file
 environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+root = environ.Path(__file__) - 2
+BASE_DIR = root()
 
 
 # Quick-start development settings - unsuitable for production
@@ -68,7 +69,7 @@ ROOT_URLCONF = 'ameisen_an_die_macht.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [root.path('templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'de-de'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -128,7 +129,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+PUBLIC_ROOT = env('PUBLIC_ROOT')
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    str(root.path('static/')),
+]
+STATIC_ROOT = ''
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = ''
+
+if PUBLIC_ROOT is not None:
+    STATIC_ROOT = PUBLIC_ROOT('static/')
+    MEDIA_ROOT = PUBLIC_ROOT('media/')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -137,3 +151,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+# Bing api key
+BING_API_KEY_SERVER = env('BING_API_KEY_SERVER')
+BING_API_KEY_CLIENT = env('BING_API_KEY_CLIENT')
