@@ -81,7 +81,7 @@
                 const userCoordinates = user.location.coordinates;
                 var plotll = new L.LatLng(userCoordinates[1], userCoordinates[0], true);
                 var plotmark = new L.Marker(plotll);
-                plotmark.bindPopup(`${user.username}, ${user.address}`);
+                plotmark.bindPopup(`<strong>${user.username}</strong>, ${user.address}`);
                 this._markers.push(plotmark)
                 this._clusterGroup.addLayer(plotmark)
             }
