@@ -155,3 +155,48 @@ REST_FRAMEWORK = {
 # Bing api key
 BING_API_KEY_SERVER = env('BING_API_KEY_SERVER')
 BING_API_KEY_CLIENT = env('BING_API_KEY_CLIENT')
+
+# prod settings
+
+if not DEBUG:
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    X_FRAME_OPTIONS = 'DENY'
+
+# logging
+
+if not DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '[{levelname}] {asctime} - {module} - {process:d} - '
+                          '{thread:d} - {message}',
+                'style': '{',
+            },
+            'simple': {
+                'format': '[{levelname}] {asctime} - {module} - {message}',
+                'style': '{',
+            },
+        },
+        'handlers': {
+            'file': {
+                'level': 'WARNING',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': env('LOGGING_FILENAME'),
+                'maxBytes': 1024 * 1024 * 10,  # 10MB
+                'backupCount': 20,
+                'formatter': 'simple'
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'WARNING',
+                'propagate': True,
+            },
+        },
+    }
