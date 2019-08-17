@@ -11,7 +11,7 @@
 
         initMap() {
             this._map = L.map('map')
-                .setView([45, 10], 4);
+                .setView([50, 11], 5);
             this.initBingLayer()
             this.initClusterGroup()
             this.updateMap();    
