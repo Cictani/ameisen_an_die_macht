@@ -11,7 +11,7 @@
 
         initMap() {
             this._map = L.map('map')
-                .setView([45, 10], 2);
+                .setView([45, 10], 4);
             this.initBingLayer()
             this.initClusterGroup()
             this.updateMap();    
@@ -25,7 +25,7 @@
         initBingLayer() {
             const options = {
                 bingMapsKey: this._bingApiKey,
-                imagerySet: 'AerialWithLabels',
+                imagerySet: 'Road',
                 culture: 'de-de'
             }
             L.tileLayer.bing(options).addTo(this._map)
