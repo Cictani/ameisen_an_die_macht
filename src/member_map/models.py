@@ -14,3 +14,6 @@ class DiscordUser(models.Model):
         max_length=100
     )
     location = models.PointField()
+    address = models.CharField(
+        max_length=200
+    )
