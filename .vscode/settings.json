@@ -1,5 +1,4 @@
 {
-    "python.venvPath": "venv",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "files.watcherExclude": {
@@ -8,5 +7,5 @@
         "**/node_modules/*/**": true,
         "**/venv/*/**": true
     },
-    "python.pythonPath": "venv/bin/python3.6"
+    "python.pythonPath": "~/venv/ameisen_an_die_macht/bin/python"
 }
